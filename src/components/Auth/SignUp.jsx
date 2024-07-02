@@ -4,6 +4,7 @@ import Button from '../../utils/Button';
 import { Link } from 'react-router-dom';
 
 const SignUp = () => {
+  
   return (
     <div className='h-screen w-full'>
       <Header />
@@ -40,7 +41,7 @@ const SignUp = () => {
           </div>
           <div className='flex flex-col gap-4 w-full'>
             <Button
-              //   onClick={() => console.log('submit')}
+                onClick={() => console.log('submit')}
               text={'Submit'}
               className={'text-center'}
             />

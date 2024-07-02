@@ -1,9 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../common/Header';
 import Button from '../../utils/Button';
 import { Link } from 'react-router-dom';
 
 const SignIn = () => {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('https://health-connect-kyp7.onrender.com/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      console.log(data)
+      if (response.ok) {
+        console.log('Login successful', data);
+        // Handle successful login (e.g., save token, redirect, etc.)
+      } else {
+        console.error('Login failed', data);
+        // Handle login failure (e.g., show error message)
+      }
+    } catch (error) {
+      console.error('An error occurred during login', error);
+      // Handle network or other errors
+    }
+  };
+
   return (
     <div className='h-screen w-full'>
       <Header />
@@ -14,10 +43,12 @@ const SignIn = () => {
           </h1>
           <div className='flex flex-col gap-5'>
             <div className='flex flex-col gap-1.5'>
-              <span className='font-medium'>Full Name*</span>
+              <span className='font-medium'>Email*</span>
               <input
-                type='text'
-                placeholder='Full name'
+                type='email'
+                placeholder='Email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className='input_ outline-none rounded-lg px-2 p-1'
               />
             </div>
@@ -26,13 +57,15 @@ const SignIn = () => {
               <input
                 type='password'
                 placeholder='********'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className='input_ outline-none rounded-lg px-2 p-1'
               />
             </div>
           </div>
           <div className='flex flex-col gap-4 w-full'>
             <Button
-              //   onClick={() => console.log('submit')}
+              onClick={handleLogin}
               text={'Sign in'}
               className={'text-center'}
             />
